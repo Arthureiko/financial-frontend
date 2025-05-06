@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { Button, Input, Typography } from "@/components/core";
 import { useTransfers } from "@/hooks/useTransfers";
+import { useDeposits } from "@/hooks/useDeposits";
 import styles from "./TransferOperation.module.css";
 
 interface TransferOperationProps {
@@ -17,6 +18,7 @@ export const TransferOperation = ({
   const [amount, setAmount] = useState<string>("");
   const [targetUserId, setTargetUserId] = useState<string>("");
   const { transfers, loading, addTransfer } = useTransfers();
+  const { balance } = useDeposits();
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -31,6 +33,10 @@ export const TransferOperation = ({
         throw new Error("ID do usuário destinatário é obrigatório");
       }
 
+      if (transferAmount > balance) {
+        throw new Error("Saldo insuficiente para realizar a transferência");
+      }
+
       addTransfer(transferAmount, targetUserId);
       onSuccess("Transferência realizada com sucesso!");
       setAmount("");
@@ -39,7 +45,7 @@ export const TransferOperation = ({
       onError(
         error instanceof Error
           ? error.message
-          : "Erro ao realizar transferência",
+          : "Erro ao realizar transferência"
       );
     }
   };

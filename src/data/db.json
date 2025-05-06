@@ -17,6 +17,24 @@
       "category": "transfer",
       "date": "2025-05-06T19:59:06.613Z",
       "createdAt": "2025-05-06T19:59:06.620Z"
+    },
+    {
+      "id": "1746564200637",
+      "description": "Depósito",
+      "amount": 1000,
+      "type": "income",
+      "category": "deposit",
+      "date": "2025-05-06T20:43:20.614Z",
+      "createdAt": "2025-05-06T20:43:20.637Z"
+    },
+    {
+      "id": "1746564221308",
+      "description": "Transferência - 1746564200637",
+      "amount": 1000,
+      "type": "expense",
+      "category": "transfer",
+      "date": "2025-05-06T20:43:41.301Z",
+      "createdAt": "2025-05-06T20:43:41.308Z"
     }
   ],
   "categories": [],
