@@ -1,0 +1,40 @@
+{
+  "transactions": [
+    {
+      "id": "1746560971616",
+      "description": "Depósito",
+      "amount": 100,
+      "type": "income",
+      "category": "deposit",
+      "date": "2025-05-06T19:49:31.606Z",
+      "createdAt": "2025-05-06T19:49:31.616Z"
+    },
+    {
+      "id": "1746561546620",
+      "description": "Transferência - 1746560971616",
+      "amount": 100,
+      "type": "expense",
+      "category": "transfer",
+      "date": "2025-05-06T19:59:06.613Z",
+      "createdAt": "2025-05-06T19:59:06.620Z"
+    }
+  ],
+  "categories": [],
+  "accounts": [],
+  "users": [
+    {
+      "id": "30bbd9c4-a012-4ba9-b10e-64f8ac40b06b",
+      "email": "arthur@eiko.com",
+      "password": "Mudar123",
+      "name": "Arthur Eiko",
+      "createdAt": "2025-05-06T19:48:27.169Z"
+    },
+    {
+      "id": "6dd75fc6-10b8-4df1-a6f7-b67e71c3d011",
+      "email": "arthur@asd.com",
+      "password": "Amu1234",
+      "name": "",
+      "createdAt": "2025-05-06T19:54:23.927Z"
+    }
+  ]
+}

@@ -2,16 +2,19 @@ import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
 export function middleware(request: NextRequest) {
-  const user = request.cookies.get("user");
   const isAuthPage =
     request.nextUrl.pathname.startsWith("/login") ||
     request.nextUrl.pathname.startsWith("/register");
 
-  if (!user && !isAuthPage) {
-    return NextResponse.redirect(new URL("/login", request.url));
+  // Verifica se existe o cookie de autenticação
+  const authCookie = request.cookies.get("auth-token");
+  const isAuthenticated = !!authCookie;
+
+  if (!isAuthenticated && !isAuthPage) {
+    return NextResponse.redirect(new URL("/", request.url));
   }
 
-  if (user && isAuthPage) {
+  if (isAuthenticated && isAuthPage) {
     return NextResponse.redirect(new URL("/dashboard", request.url));
   }
 

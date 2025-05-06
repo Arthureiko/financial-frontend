@@ -1,69 +1,48 @@
-import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
-import { getLocalStorage, removeLocalStorage } from "@/utils/localStorage";
-
-interface User {
-  id: string;
-  name: string;
-  email: string;
-  createdAt: string;
-  updatedAt: string;
-}
+import { useState, useEffect } from "react";
+import { auth } from "@/lib/auth";
+import { User } from "@/types/user";
 
 export function useAuth() {
-  const router = useRouter();
-  const [user, setUser] = useState<User | null>(null);
+  const [user, setUser] = useState<Omit<User, "password"> | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const checkAuth = async () => {
-      try {
-        const storedUser = getLocalStorage("user");
-        if (!storedUser) {
-          logout();
-          return;
-        }
-        const userObj = JSON.parse(storedUser);
-        if (!userObj?.id) {
-          logout();
-          return;
-        }
-
-        const response = await fetch("/api/auth/me");
-        if (response.ok) {
-          const data = await response.json();
-          setUser(data.user);
-        } else {
-          removeLocalStorage("user");
-          setUser(null);
-        }
-      } catch (error) {
-        console.error("Erro ao verificar autenticação:", error);
-        removeLocalStorage("user");
-        setUser(null);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    checkAuth();
+    const currentUser = auth.getCurrentUser();
+    setUser(currentUser);
+    setLoading(false);
   }, []);
 
-  const logout = async () => {
+  const login = async (email: string, password: string) => {
     try {
-      await fetch("/api/auth/logout", { method: "POST" });
+      const loggedUser = await auth.login(email, password);
+      setUser(loggedUser);
+      return loggedUser;
     } catch (error) {
-      console.error("Erro ao fazer logout:", error);
-    } finally {
-      removeLocalStorage("user");
-      setUser(null);
-      router.push("/");
+      throw error;
     }
+  };
+
+  const register = async (email: string, password: string, name: string) => {
+    try {
+      const newUser = await auth.register(email, password, name);
+      setUser(newUser);
+      return newUser;
+    } catch (error) {
+      throw error;
+    }
+  };
+
+  const logout = () => {
+    auth.logout();
+    setUser(null);
   };
 
   return {
     user,
     loading,
+    login,
+    register,
     logout,
+    isAuthenticated: !!user,
   };
 }

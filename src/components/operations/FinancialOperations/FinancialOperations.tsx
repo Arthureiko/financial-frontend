@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Typography, Button } from "@/components/core";
+import { Button } from "@/components/core";
 import { Modal } from "@/components/core/modal";
 import { DepositOperation } from "../DepositOperation/DepositOperation";
 import { TransferOperation } from "../TransferOperation/TransferOperation";

@@ -1,4 +1,5 @@
 "use client";
+import { useState, useEffect } from "react";
 
 import Image from "next/image";
 import Link from "next/link";
@@ -6,9 +7,8 @@ import { usePathname } from "next/navigation";
 import { MdDashboard } from "react-icons/md";
 import { IoLogOut } from "react-icons/io5";
 import { Typography } from "@/components/core";
-import { getLocalStorage } from "@/utils/localStorage";
-import { useState, useEffect } from "react";
 import { useAuth } from "@/hooks/useAuth";
+import { useRouter } from "next/navigation";
 
 import styles from "./Sidebar.module.css";
 
@@ -21,11 +21,12 @@ export function Sidebar() {
   const [userData, setUserData] = useState<UserData | null>(null);
   const isDashboardActive = pathname === "/dashboard";
   const { logout } = useAuth();
+  const router = useRouter();
 
   useEffect(() => {
-    const storedUser = getLocalStorage("user");
-    if (storedUser) {
-      setUserData(JSON.parse(storedUser));
+    const currentUser = localStorage.getItem("current-user");
+    if (currentUser) {
+      setUserData(JSON.parse(currentUser));
     }
   }, []);
 
@@ -81,7 +82,13 @@ export function Sidebar() {
               {userData?.name || "Usuário"}
             </Typography>
           </div>
-          <button className={styles.logoutButton} onClick={logout}>
+          <button
+            className={styles.logoutButton}
+            onClick={() => {
+              logout();
+              router.push("/"); // Redireciona para a tela inicial após logout
+            }}
+          >
             <IoLogOut size={20} />
           </button>
         </div>

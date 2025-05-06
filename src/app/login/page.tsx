@@ -4,11 +4,12 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { Input, Typography, Button, Modal } from "@/components/core";
 import { validateEmail, validatePassword } from "@/utils/validation";
+import { useAuth } from "@/hooks/useAuth";
 import styles from "./page.module.css";
-import { setLocalStorage } from "@/utils/localStorage";
 
 export default function LoginPage() {
   const router = useRouter();
+  const { login } = useAuth();
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -77,36 +78,14 @@ export default function LoginPage() {
 
     setIsLoading(true);
     try {
-      const response = await fetch("/api/auth/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
-
-      const data = await response.json();
-
-      if (response.ok) {
-        setLocalStorage({
-          key: "user",
-          value: JSON.stringify(data.user),
-        });
-
-        window.location.href = "/dashboard";
-      } else {
-        setShowModal({
-          show: true,
-          type: "danger",
-          message: data.message || "Erro ao realizar login",
-        });
-      }
-    } catch (error: unknown) {
-      console.error("Erro no login:", error);
+      await login(formData.email, formData.password);
+      router.push("/dashboard");
+    } catch (error) {
       setShowModal({
         show: true,
         type: "danger",
-        message: "Erro ao conectar com o servidor",
+        message:
+          error instanceof Error ? error.message : "Erro ao realizar login",
       });
     } finally {
       setIsLoading(false);

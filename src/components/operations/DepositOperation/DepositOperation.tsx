@@ -1,23 +1,10 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Typography, Button, Input } from "@/components/core";
 import { Modal } from "@/components/core/modal";
+import { useDeposits } from "@/hooks/useDeposits";
 import styles from "./DepositOperation.module.css";
-
-interface Deposit {
-  id: string;
-  amount: number;
-  createdAt: string;
-}
-
-interface DepositData {
-  amount: number;
-}
-
-interface ReversalData {
-  operationId: string;
-}
 
 interface DepositOperationProps {
   onError: (message: string) => void;
@@ -29,8 +16,6 @@ export const DepositOperation = ({
   onSuccess,
 }: DepositOperationProps) => {
   const [amount, setAmount] = useState<string>("");
-  const [balance, setBalance] = useState<number>(0);
-  const [deposits, setDeposits] = useState<Deposit[]>([]);
   const [modal, setModal] = useState<{
     open: boolean;
     title: string;
@@ -43,98 +28,35 @@ export const DepositOperation = ({
     variant: "success",
   });
 
-  const fetchBalance = async () => {
-    try {
-      const response = await fetch("/api/user/balance", {
-        credentials: "include",
-      });
-      if (response.ok) {
-        const data = await response.json();
-        setBalance(data.balance);
-      }
-    } catch (error) {
-      console.error("Erro ao buscar saldo:", error);
-    }
-  };
+  const { deposits, balance, loading, addDeposit, reverseDeposit } =
+    useDeposits();
 
-  const fetchDeposits = async () => {
-    try {
-      const response = await fetch("/api/operations/deposits", {
-        credentials: "include",
-      });
-      if (response.ok) {
-        const data = await response.json();
-        setDeposits(data);
-      }
-    } catch (error) {
-      console.error("Erro ao buscar depósitos:", error);
-    }
-  };
-
-  useEffect(() => {
-    fetchBalance();
-    fetchDeposits();
-  }, []);
-
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
     try {
-      const depositData: DepositData = {
-        amount: parseFloat(amount),
-      };
-
-      const response = await fetch("/api/operations/deposit", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        credentials: "include",
-        body: JSON.stringify(depositData),
-      });
-
-      if (!response.ok) {
-        const error = await response.json();
-        throw new Error(error.message);
+      const depositAmount = parseFloat(amount);
+      if (isNaN(depositAmount) || depositAmount <= 0) {
+        throw new Error("Valor inválido para depósito");
       }
 
+      addDeposit(depositAmount);
       onSuccess("Depósito realizado com sucesso!");
       setAmount("");
-      fetchBalance();
-      fetchDeposits();
     } catch (error) {
       onError(
-        error instanceof Error ? error.message : "Erro ao realizar depósito"
+        error instanceof Error ? error.message : "Erro ao realizar depósito",
       );
     }
   };
 
-  const handleReversal = async (operationId: string) => {
+  const handleReversal = (operationId: string) => {
     try {
-      const reversalData: ReversalData = {
-        operationId,
-      };
-
-      const response = await fetch("/api/operations/reverse", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        credentials: "include",
-        body: JSON.stringify(reversalData),
-      });
-
-      if (!response.ok) {
-        const error = await response.json();
-        throw new Error(error.message);
-      }
-
+      reverseDeposit(operationId);
       onSuccess("Depósito revertido com sucesso!");
-      fetchBalance();
-      fetchDeposits();
     } catch (error) {
       onError(
-        error instanceof Error ? error.message : "Erro ao reverter depósito"
+        error instanceof Error ? error.message : "Erro ao reverter depósito",
       );
     }
   };
@@ -148,6 +70,10 @@ export const DepositOperation = ({
       variant: "success",
     });
   };
+
+  if (loading) {
+    return <Typography>Carregando...</Typography>;
+  }
 
   return (
     <div className={styles.depositContainer}>

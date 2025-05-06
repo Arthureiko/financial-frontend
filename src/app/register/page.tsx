@@ -4,10 +4,12 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { emailIsValid } from "js-essential-kit";
 import { Input, Typography, Button, Modal } from "@/components/core";
+import { useAuth } from "@/hooks/useAuth";
 import styles from "./page.module.css";
 
 export default function RegisterPage() {
   const router = useRouter();
+  const { register } = useAuth();
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -97,38 +99,21 @@ export default function RegisterPage() {
 
     setIsLoading(true);
     try {
-      const response = await fetch("/api/auth/register", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
+      register(formData.email, formData.password, formData.name);
+      setShowModal({
+        show: true,
+        type: "success",
+        message: "Cadastro realizado com sucesso!",
       });
-
-      const data = await response.json();
-
-      if (response.ok) {
-        setShowModal({
-          show: true,
-          type: "success",
-          message: "Cadastro realizado com sucesso!",
-        });
-        setTimeout(() => {
-          router.push("/login");
-        }, 2000);
-      } else {
-        setShowModal({
-          show: true,
-          type: "danger",
-          message: data.message || "Erro ao realizar cadastro",
-        });
-      }
-    } catch (error: unknown) {
-      console.error("Erro no cadastro:", error);
+      setTimeout(() => {
+        router.push("/login");
+      }, 2000);
+    } catch (error) {
       setShowModal({
         show: true,
         type: "danger",
-        message: "Erro ao conectar com o servidor",
+        message:
+          error instanceof Error ? error.message : "Erro ao realizar cadastro",
       });
     } finally {
       setIsLoading(false);

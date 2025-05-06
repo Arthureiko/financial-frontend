@@ -27,7 +27,7 @@ export function Header() {
   return (
     <header className={styles.header}>
       <Typography variant="h2" size={3}>
-        {getPageTitle(pathname)}
+        {getPageTitle(pathname || "/")}
       </Typography>
       <Typography variant="body" size={1.2}>
         {formatDate(currentDate)}
