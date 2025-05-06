@@ -1,0 +1,20 @@
+.containerLayout {
+  display: flex;
+  background-color: #f9fafb;
+}
+
+.mainLayout {
+  flex: 1;
+  overflow-y: auto;
+}
+
+.contentLayout {
+  padding: 2rem;
+  max-width: 1450px;
+  margin: 0 auto;
+}
+
+.container {
+  margin-top: 4rem;
+  background-color: #f8f9fa;
+}

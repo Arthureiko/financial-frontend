@@ -1,0 +1,47 @@
+.wrapper {
+  gap: 10px;
+  display: flex;
+  flex-direction: column;
+}
+
+.label {
+  font-size: 1.4rem;
+  font-weight: 500;
+  color: #443d58;
+}
+
+.inputContainer {
+  position: relative;
+  display: flex;
+  align-items: center;
+  height: 5rem;
+  border: 1px solid #1d2939;
+  border-radius: 12px;
+  transition: all 0.2s ease;
+  padding: 0 24px;
+}
+
+.input {
+  flex: 1;
+  height: 100%;
+  background: transparent;
+  border: none;
+  color: #443d58;
+  outline: none;
+  font-size: 1.3rem;
+}
+
+.passwordToggle {
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.errorMessage {
+  color: #dc2626;
+  font-size: 1.4rem;
+  margin-left: 16px;
+}

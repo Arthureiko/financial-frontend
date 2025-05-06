@@ -1,0 +1,114 @@
+.page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: linear-gradient(102deg, #d5ecf4 0%, #fceaf4 100%);
+}
+
+.form {
+  gap: 20px;
+  width: 491px;
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 16px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.logo {
+  align-self: center;
+  margin-bottom: 20px;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.inputContainerMt {
+  margin-top: 10px;
+}
+
+.recover {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.button {
+  padding: 8px 16px;
+  border: none;
+  color: #e91e63;
+  background: transparent;
+  cursor: pointer;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: color 0.2s ease;
+}
+
+.button:hover {
+  color: #c2185b;
+}
+
+@media (max-width: 768px) {
+  .form {
+    padding: 20px;
+    margin: 10px;
+  }
+}
+
+.code {
+  margin-top: 40px;
+  margin-bottom: 32px;
+  gap: 6px;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.container {
+  gap: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 36px;
+}
+
+.ring {
+  position: relative;
+  width: 50px;
+  height: 50px;
+}
+
+.svg {
+  width: 100%;
+  height: 100%;
+  transform: rotate(-90deg);
+}
+
+.circleBackground {
+  fill: none;
+  stroke: #f4cde3;
+  stroke-width: 10;
+}
+
+.circleProgress {
+  fill: none;
+  stroke: #e81f76;
+  stroke-width: 10;
+  stroke-linecap: round;
+  transition: stroke-dashoffset 1s linear;
+}
+
+.time {
+  top: 50%;
+  left: 50%;
+  font-size: 1.5rem;
+  position: absolute;
+  transform: translate(-50%, -50%);
+}

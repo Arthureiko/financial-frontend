@@ -1,0 +1,110 @@
+:root {
+  /* Brand Colors */
+  --brand-primary: #f45b69;
+  --brand-secondary: #6c63ff;
+  --brand-tertiary: #ffb258;
+
+  /* Accent Colors */
+  --accent-coral: #ff6b6b;
+  --accent-purple: #6b7280;
+  --accent-orange: #ffb258;
+  --accent-orange-text: #fe9b39;
+
+  /* Background Colors */
+  --background-white: #ffffff;
+  --background-light: #f8f9fb;
+  --background-card: #ffffff;
+  --background-highlight: #fff8f0;
+
+  /* Status Colors */
+  --status-success-bg: #ecfdf5;
+  --status-success-text: #059669;
+  --status-error-bg: #fee2e2;
+  --status-error-text: #dc2626;
+  --status-warning-bg: #fce7f3;
+  --status-warning-text: #db2777;
+
+  /* Text Colors */
+  --text-primary: #1f2937;
+  --text-secondary: #6b7280;
+  --text-tertiary: #9ca3af;
+  --text-light: #ffffff;
+
+  /* Border Colors */
+  --border-light: rgba(0, 0, 0, 0.05);
+  --border-highlight: #ffe4ca;
+
+  /* CTA Colors */
+  --cta-primary: #ff4f6e;
+  --cta-primary-hover: #ff3557;
+  --cta-secondary: #6b7280;
+  --cta-secondary-hover: #4b5563;
+
+  /* Specialty Icons */
+  --specialty-cardio: #f87171;
+  --specialty-neuro: #818cf8;
+  --specialty-nutri: #34d399;
+  --specialty-psico: #fcd34d;
+
+  /* Progress Colors */
+  --progress-empty: #e5e7eb;
+  --progress-filled: #6b7280;
+
+  /* Gradient */
+  --gradient-primary: linear-gradient(102deg, #f45b69 0%, #ff8b9c 100%);
+  --gradient-card: linear-gradient(102deg, #d5ecf4 0%, #fceaf4 100%);
+  --gradient-overlay: linear-gradient(
+    0deg,
+    rgba(252, 252, 253, 0.4) 0%,
+    rgba(252, 252, 253, 0.4) 100%
+  );
+
+  /* Shadow */
+  --shadow-sm: 0px 1px 2px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0px 10px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Color Opacity Utilities */
+.brand-primary-10 {
+  color: rgba(244, 91, 105, 0.1);
+}
+.brand-primary-20 {
+  color: rgba(244, 91, 105, 0.2);
+}
+.brand-primary-50 {
+  color: rgba(244, 91, 105, 0.5);
+}
+
+/* Dark Mode - se necessário */
+[data-theme="dark"] {
+  --background-white: #1f2937;
+  --background-light: #374151;
+  --background-card: #2d3748;
+  --text-primary: #f9fafb;
+  --text-secondary: #e5e7eb;
+  --text-tertiary: #9ca3af;
+  --border-light: rgba(255, 255, 255, 0.05);
+}
+
+/* Semantic Colors */
+:root {
+  /* Appointment Status */
+  --appointment-scheduled: var(--status-warning-bg);
+  --appointment-scheduled-text: var(--status-warning-text);
+  --appointment-completed: var(--status-success-bg);
+  --appointment-completed-text: var(--status-success-text);
+  --appointment-cancelled: var(--status-error-bg);
+  --appointment-cancelled-text: var(--status-error-text);
+
+  /* Card Variants */
+  --card-default-bg: var(--background-card);
+  --card-highlight-bg: var(--background-highlight);
+  --card-highlight-border: var(--border-highlight);
+
+  /* Interactive Elements */
+  --button-primary: var(--cta-primary);
+  --button-primary-hover: var(--cta-primary-hover);
+  --input-border: var(--border-light);
+  --input-focus: var(--brand-primary);
+}

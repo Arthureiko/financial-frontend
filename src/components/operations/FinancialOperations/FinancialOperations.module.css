@@ -1,0 +1,11 @@
+.operationsContainer {
+  width: 100%;
+}
+
+.tabs {
+  gap: 1rem;
+  width: 200px;
+  height: 50px;
+  display: flex;
+  margin-bottom: 2rem;
+}
