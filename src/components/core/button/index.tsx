@@ -21,7 +21,7 @@ export function Button({
   rightIcon,
   textColor,
   backgroundColor,
-  variant = "text",
+  variant = "container",
   children,
   fontSize,
   loading = false,
@@ -29,13 +29,7 @@ export function Button({
   style,
   ...props
 }: ButtonProps) {
-  const buttonClasses = [
-    styles.button,
-    variant === "container" && styles.container,
-    variant === "outline" && styles.outline,
-    variant === "text" && styles.text,
-    variant === "back" && styles.back,
-  ]
+  const buttonClasses = [styles.button, styles[variant]]
     .filter(Boolean)
     .join(" ");
 

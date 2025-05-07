@@ -45,7 +45,7 @@ export const TransferOperation = ({
       onError(
         error instanceof Error
           ? error.message
-          : "Erro ao realizar transferência"
+          : "Erro ao realizar transferência",
       );
     }
   };

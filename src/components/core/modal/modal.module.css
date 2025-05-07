@@ -9,7 +9,6 @@
   align-items: center;
   background: #0000004d;
   justify-content: center;
-  z-index: 99999;
 }
 
 .modal {
@@ -158,4 +157,12 @@
 
 .closeButton:hover {
   background-color: #e5e7eb;
+}
+
+.success {
+  border: 2px solid #1fba5d;
+}
+
+.danger {
+  border: 2px solid #ff4242;
 }

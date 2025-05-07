@@ -34,12 +34,13 @@ export const DepositOperation = ({
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    try {
-      const depositAmount = parseFloat(amount);
-      if (isNaN(depositAmount) || depositAmount <= 0) {
-        throw new Error("Valor inválido para depósito");
-      }
+    const depositAmount = parseFloat(amount);
+    if (isNaN(depositAmount) || depositAmount <= 0) {
+      onError("Valor inválido para depósito");
+      return;
+    }
 
+    try {
       addDeposit(depositAmount);
       onSuccess("Depósito realizado com sucesso!");
       setAmount("");
@@ -76,7 +77,7 @@ export const DepositOperation = ({
   }
 
   return (
-    <div className={styles.depositContainer}>
+    <div className={styles.depositContainer} data-testid="deposit-operation">
       <Modal
         open={modal.open}
         onClose={() => setModal({ ...modal, open: false })}
