@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { api } from "@/services/api";
 import { Transaction } from "@/types/transaction";
+import { auth } from "@/lib/auth";
 
 export interface Transfer {
   id: string;
@@ -16,6 +17,9 @@ export function useTransfers() {
   useEffect(() => {
     const loadTransfers = async () => {
       try {
+        const user = auth.getCurrentUser();
+        if (!user) throw new Error("Usuário não autenticado");
+
         const transactions = await api.getTransactions();
         const transfersData = transactions.filter(
           (t) => t.type === "expense" && t.category === "transfer",
@@ -40,12 +44,16 @@ export function useTransfers() {
 
   const addTransfer = async (amount: number, targetUserId: string) => {
     try {
+      const user = auth.getCurrentUser();
+      if (!user) throw new Error("Usuário não autenticado");
+
       const newTransfer: Omit<Transaction, "id"> = {
         description: `Transferência - ${targetUserId}`,
         amount,
         type: "expense",
         category: "transfer",
         date: new Date().toISOString(),
+        userId: user.id,
       };
 
       await api.createTransaction(newTransfer);

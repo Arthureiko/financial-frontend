@@ -1,13 +1,22 @@
 import { Transaction } from "@/types/transaction";
 import { Category } from "@/types/category";
 import { User } from "@/types/user";
+import { auth } from "@/lib/auth";
 
 const API_URL = "/api";
 
 export const api = {
   // Transações
   getTransactions: async (): Promise<Transaction[]> => {
-    const response = await fetch(`${API_URL}/transactions`);
+    const user = auth.getCurrentUser();
+    if (!user) throw new Error("Usuário não autenticado");
+
+    const response = await fetch(`${API_URL}/transactions`, {
+      headers: {
+        "Content-Type": "application/json",
+        "user-id": user.id,
+      },
+    });
     if (!response.ok) throw new Error("Erro ao buscar transações");
     return response.json();
   },
@@ -15,12 +24,19 @@ export const api = {
   createTransaction: async (
     transaction: Omit<Transaction, "id">,
   ): Promise<Transaction> => {
+    const user = auth.getCurrentUser();
+    if (!user) throw new Error("Usuário não autenticado");
+
     const response = await fetch(`${API_URL}/transactions`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        "user-id": user.id,
       },
-      body: JSON.stringify(transaction),
+      body: JSON.stringify({
+        ...transaction,
+        userId: user.id,
+      }),
     });
     if (!response.ok) throw new Error("Erro ao criar transação");
     return response.json();
@@ -30,12 +46,19 @@ export const api = {
     id: string,
     transaction: Partial<Transaction>,
   ): Promise<Transaction> => {
+    const user = auth.getCurrentUser();
+    if (!user) throw new Error("Usuário não autenticado");
+
     const response = await fetch(`${API_URL}/transactions/${id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
+        "user-id": user.id,
       },
-      body: JSON.stringify(transaction),
+      body: JSON.stringify({
+        ...transaction,
+        userId: user.id,
+      }),
     });
     if (!response.ok) throw new Error("Erro ao atualizar transação");
     return response.json();
@@ -50,16 +73,28 @@ export const api = {
 
   // Categorias
   getCategories: async (): Promise<Category[]> => {
-    const response = await fetch(`${API_URL}/categories`);
+    const user = auth.getCurrentUser();
+    if (!user) throw new Error("Usuário não autenticado");
+
+    const response = await fetch(`${API_URL}/categories`, {
+      headers: {
+        "Content-Type": "application/json",
+        "user-id": user.id,
+      },
+    });
     if (!response.ok) throw new Error("Erro ao buscar categorias");
     return response.json();
   },
 
   createCategory: async (category: Omit<Category, "id">): Promise<Category> => {
+    const user = auth.getCurrentUser();
+    if (!user) throw new Error("Usuário não autenticado");
+
     const response = await fetch(`${API_URL}/categories`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        "user-id": user.id,
       },
       body: JSON.stringify(category),
     });
@@ -71,10 +106,14 @@ export const api = {
     id: string,
     category: Partial<Category>,
   ): Promise<Category> => {
+    const user = auth.getCurrentUser();
+    if (!user) throw new Error("Usuário não autenticado");
+
     const response = await fetch(`${API_URL}/categories/${id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
+        "user-id": user.id,
       },
       body: JSON.stringify(category),
     });
@@ -83,6 +122,9 @@ export const api = {
   },
 
   deleteCategory: async (id: string): Promise<void> => {
+    const user = auth.getCurrentUser();
+    if (!user) throw new Error("Usuário não autenticado");
+
     const response = await fetch(`${API_URL}/categories/${id}`, {
       method: "DELETE",
     });
